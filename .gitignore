@@ -1,0 +1,17 @@
+# Executables
+*.exe
+SuperScratchKartR
+
+# Build artifacts and objects
+*.o
+*.obj
+build/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor specific
+.vscode/
+.idea/
+*.swp
