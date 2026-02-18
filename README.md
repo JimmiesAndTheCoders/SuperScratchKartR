@@ -40,6 +40,14 @@ A free, open-source fan-made 3D kart racing game inspired by SuperTuxKart and th
 
 ### Building from source
 
+Open a terminal and run these commands:
+```bash
+git clone https://github.com/JimmiesAndTheCoders/SuperScratchKartR.git
+cd SuperScratchKartR
+```
+
+### How to compile
+
 #### :window: Windows
 
 Ensure you have **raylib** installed at `C:\raylib`.
