@@ -4,11 +4,11 @@
 if [[ "$OSTYPE" == "darwin"* ]]; then
     echo "Building for macOS..."
     # macOS build command (assumes raylib is installed via Homebrew)
-    gcc main.c -o SuperScratchKartR -lraylib -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
+    gcc main.cpp -o SuperScratchKartR -lraylib -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
 else
     echo "Building for Linux..."
     # Linux build command
-    gcc main.c -o SuperScratchKartR -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+    gcc main.cpp -o SuperScratchKartR -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 fi
 
 if [ $? -eq 0 ]; then
