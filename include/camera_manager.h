@@ -12,9 +12,18 @@ public:
 private:
     Camera3D camera;
     
+    // Stored vectors for smoothing
+    Vector3 currentCamPos;
+    Vector3 currentLookAt;
+
+    // Camera settings
     const float distance = 12.0f;
     const float height = 5.0f;
     const float lookAtOffset = 2.0f;
+    
+    // Smoothing factor (Higher = faster follow, Lower = lazier/smoother)
+    const float followLerpSpeed = 8.0f;
+    const float lookAtLerpSpeed = 12.0f;
 };
 
 #endif
