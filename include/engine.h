@@ -2,6 +2,8 @@
 #define ENGINE_H
 
 #include "raylib.h"
+#include "camera_manager.h"
+#include "globals.h"
 
 class Engine {
     public:
@@ -9,12 +11,13 @@ class Engine {
         ~Engine();
         
         void Run();
-        void Update();
-        void Draw();
     
     private:
-        const int screenWidth = 1280;
-        const int screenHeight = 720;
+        void Update();
+        void Draw();
+        
+        CameraManager cameraSystem;
+        Vector3 cubePosition;
         bool shouldClose;
 };
 
