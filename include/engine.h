@@ -23,6 +23,8 @@ class Engine {
         AudioManager audioSystem;
         Renderer renderer;
         Kart* player;
+        
+        bool isPaused;
         bool shouldClose;
 };
 

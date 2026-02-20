@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "camera_manager.h"
 #include "kart.h"
+#include "ui_manager.h"
 
 class Renderer {
 public:
@@ -11,11 +12,11 @@ public:
     ~Renderer();
 
     // The main function to draw everything
-    void RenderFrame(const CameraManager& cameraSystem, const Kart* player);
+    void RenderFrame(const CameraManager& cameraSystem, const Kart* player, bool isPaused);
 
 private:
     void DrawWorld();
-    void DrawUI(const Kart* player);
+    UIManager ui;
 };
 
 #endif

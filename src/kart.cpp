@@ -27,18 +27,24 @@ Kart::~Kart() {
 void Kart::Update() {
     float dt = GetFrameTime();
 
+    bool moveLeft = IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A);
+    bool moveRight = IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D);
+    bool moveUp = IsKeyDown(KEY_UP) || IsKeyDown(KEY_W);
+    bool moveDown = IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S);
+
     float targetSteer = 0;
-    if (IsKeyDown(KEY_LEFT)) {
+    if (moveLeft) {
         rotation += config.turnSpeed * dt;
         targetSteer = 25.0f;
-    } else if (IsKeyDown(KEY_RIGHT)) {
+    } else if (moveRight) {
         rotation -= config.turnSpeed * dt;
         targetSteer = -25.0f;
     }
 
     currentSteerAngle = Lerp(currentSteerAngle, targetSteer, 10.0f * dt);
-    if (IsKeyDown(KEY_UP)) currentSpeed += config.acceleration * dt;
-    else if (IsKeyDown(KEY_DOWN)) currentSpeed -= config.acceleration * dt;
+
+    if (moveUp) currentSpeed += config.acceleration * dt;
+    else if (moveDown) currentSpeed -= config.acceleration * dt;
     else {
         if (currentSpeed > 0) currentSpeed -= config.friction * dt;
         else if (currentSpeed < 0) currentSpeed += config.friction * dt;
