@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "audio_manager.h"
 #include "camera_manager.h"
+#include "renderer.h"
 #include "globals.h"
 #include "kart.h"
 
@@ -20,6 +21,7 @@ class Engine {
         
         CameraManager cameraSystem;
         AudioManager audioSystem;
+        Renderer renderer;
         Kart* player;
         bool shouldClose;
 };
