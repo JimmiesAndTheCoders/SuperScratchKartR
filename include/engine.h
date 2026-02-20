@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "camera_manager.h"
 #include "globals.h"
+#include "kart.h"
 
 class Engine {
     public:
@@ -17,7 +18,7 @@ class Engine {
         void Draw();
         
         CameraManager cameraSystem;
-        Vector3 cubePosition;
+        Kart* player;
         bool shouldClose;
 };
 

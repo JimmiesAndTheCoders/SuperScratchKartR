@@ -3,32 +3,38 @@
 Engine::Engine() : shouldClose(false) {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Super Scratch Kart R");
     SetTargetFPS(TARGET_FPS);
-    
-    // Init game data
-    cubePosition = { 0.0f, 0.0f, 0.0f };
+    player = new Kart((Vector3){ 0.0f, 0.0f, 0.0f });
 }
 
 Engine::~Engine() {
+	delete player;
     CloseWindow();
 }
 
 void Engine::Update() {
-    if (IsKeyDown(KEY_RIGHT)) cubePosition.x += 0.1f;
-    if (IsKeyDown(KEY_LEFT))  cubePosition.x -= 0.1f;
-
-    cameraSystem.Update(cubePosition);
+	player->Update();
+    cameraSystem.Update(player->GetPosition(), player->GetRotation());
 }
 
 void Engine::Draw() {
     BeginDrawing();
-        ClearBackground(RAYWHITE);
+        ClearBackground(SKYBLUE); // Changed to SKYBLUE for better contrast
         BeginMode3D(cameraSystem.GetInternalCamera());
-            DrawGrid(20, 1.0f);
-            DrawCube(cubePosition, 2.0f, 2.0f, 2.0f, RED);
-            DrawCubeWires(cubePosition, 2.0f, 2.0f, 2.0f, MAROON);
+            DrawGrid(100, 10.0f);
+            DrawPlane({0, -0.5f, 0}, {1000, 1000}, DARKGREEN);
+            player->Draw();
         EndMode3D();
-        DrawText("Super Scratch Kart R - Dev Build 0.5", 10, 10, 20, DARKGRAY);
-        DrawFPS(10, 40);
+        
+        // UI Header
+        DrawRectangle(0, 0, SCREEN_WIDTH, 45, Fade(BLACK, 0.5f));
+        DrawText("SUPER SCRATCH KART R", 20, 12, 20, RAYWHITE);
+        DrawText(TextFormat("Development Build 1"), 1060, SCREEN_HEIGHT - 40, 20, Fade(RAYWHITE, 0.5f));
+        
+        // Speedometer
+        int speed = (int)player->GetSpeed();
+        DrawText(TextFormat("SPEED: %i", speed), 20, SCREEN_HEIGHT - 40, 30, RAYWHITE);
+        
+        DrawFPS(SCREEN_WIDTH - 100, 10);
     EndDrawing();
 }
 

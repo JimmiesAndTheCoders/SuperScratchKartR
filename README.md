@@ -74,7 +74,7 @@ I made this roadmap, just for development of things that are crucial for this ga
 
 ### Development
 
-* [ ] Implement basic kart physics and controls.
+* [x] Implement basic kart physics and controls.
 * [ ] Add sound effects and music.
 * [ ] Add .obj files for track.
 * [ ] Add drifting, and a more robust physics system.
