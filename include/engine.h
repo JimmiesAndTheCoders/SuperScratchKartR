@@ -2,6 +2,7 @@
 #define ENGINE_H
 
 #include "raylib.h"
+#include "audio_manager.h"
 #include "camera_manager.h"
 #include "globals.h"
 #include "kart.h"
@@ -18,6 +19,7 @@ class Engine {
         void Draw();
         
         CameraManager cameraSystem;
+        AudioManager audioSystem;
         Kart* player;
         bool shouldClose;
 };

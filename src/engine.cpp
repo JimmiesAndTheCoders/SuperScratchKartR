@@ -4,6 +4,7 @@ Engine::Engine() : shouldClose(false) {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Super Scratch Kart R");
     SetTargetFPS(TARGET_FPS);
     player = new Kart((Vector3){ 0.0f, 0.0f, 0.0f });
+    audioSystem.PlayMusic();
 }
 
 Engine::~Engine() {
@@ -14,6 +15,7 @@ Engine::~Engine() {
 void Engine::Update() {
 	player->Update();
     cameraSystem.Update(player->GetPosition(), player->GetRotation());
+    audioSystem.Update(player->GetSpeed(), 45.0f);
 }
 
 void Engine::Draw() {
@@ -28,7 +30,7 @@ void Engine::Draw() {
         // UI Header
         DrawRectangle(0, 0, SCREEN_WIDTH, 45, Fade(BLACK, 0.5f));
         DrawText("SUPER SCRATCH KART R", 20, 12, 20, RAYWHITE);
-        DrawText(TextFormat("Development Build 1"), 1060, SCREEN_HEIGHT - 40, 20, Fade(RAYWHITE, 0.5f));
+        DrawText(TextFormat("Development Build 2"), 1060, SCREEN_HEIGHT - 40, 20, Fade(RAYWHITE, 0.5f));
         
         // Speedometer
         int speed = (int)player->GetSpeed();
