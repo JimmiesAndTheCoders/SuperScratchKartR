@@ -2,6 +2,7 @@
 #define KART_H
 
 #include "raylib.h"
+#include "wheel.h"
 
 struct KartPhysics {
     float acceleration = 35.0f;
@@ -26,9 +27,11 @@ public:
 private:
     Vector3 position;
     float rotation;        
-    float currentSpeed;    
+    float currentSpeed;
+	float currentSteerAngle;    
     KartPhysics config;
     Model bodyModel;
+    Wheel wheels[4];
 };
 
 #endif
