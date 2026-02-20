@@ -36,7 +36,7 @@ A free, open-source fan-made 3D kart racing game inspired by SuperTuxKart and th
 * raylib 5.5+.
 * CMake 4.2.3+ (Required for build configuration)
 * Git
-* Notepad++ (recommended for development)
+* Notepad++ or Dev-C++ (recommended for development)
 
 ### Building from source
 
