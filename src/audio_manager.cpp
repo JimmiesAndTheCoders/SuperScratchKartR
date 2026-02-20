@@ -8,8 +8,8 @@ AudioManager::AudioManager() : audioReady(false) {
         audioReady = true;
         
         // Load Music and Sounds
-        raceTheme = LoadMusicStream("assets/music/race_theme.mp3");
-        engineLoop = LoadSound("assets/sounds/engine_loop.wav");
+        raceTheme = LoadMusicStream("assets/audio/music/race_theme.mp3");
+        engineLoop = LoadSound("assets/audio/sounds/engine_loop.wav");
         
         raceTheme.looping = true;
         
