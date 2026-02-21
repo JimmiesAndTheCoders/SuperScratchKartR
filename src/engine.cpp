@@ -6,9 +6,8 @@ Engine::Engine() : isPaused(false), shouldClose(false) {
     SetTargetFPS(TARGET_FPS);
 
     currentTrack = new Track("assets/models/tracks/test.glb");
-
     player = new Kart((Vector3){ 0.0f, 10.0f, 0.0f });
-    
+
     audioSystem.PlayMusic();
 }
 
@@ -21,18 +20,14 @@ Engine::~Engine() {
 void Engine::Update() {
     if (IsKeyPressed(KEY_ESCAPE)) {
         isPaused = !isPaused;
-        
-        if (isPaused) {
-            SetMasterVolume(0.3f);
-        } else {
-            SetMasterVolume(1.0f);
-        }
+        if (isPaused) SetMasterVolume(0.3f);
+        else SetMasterVolume(1.0f);
     }
 
     if (!isPaused) {
         player->Update(currentTrack);
         cameraSystem.Update(player->GetPosition(), player->GetRotation());
-        audioSystem.Update(player->GetSpeed(), 45.0f);
+        audioSystem.Update(player->GetSpeed(), 45.0f, player->IsDrifting());
     }
 }
 

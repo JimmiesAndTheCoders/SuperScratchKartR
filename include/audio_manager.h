@@ -8,14 +8,15 @@ public:
     AudioManager();
     ~AudioManager();
 
-    void Update(float kartSpeed, float maxSpeed);
+    void Update(float kartSpeed, float maxSpeed, bool isDrifting);
     void PlayMusic();
     void StopMusic();
 
 private:
     Music raceTheme;
     Sound engineLoop;
-    
+    Sound driftLoop;
+
     bool audioReady;
 };
 

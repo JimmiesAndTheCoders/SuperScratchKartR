@@ -3,7 +3,9 @@
 #include "raymath.h"
 #include <math.h>
 
-Kart::Kart() : position({0, 0, 0}), rotation(0), currentSpeed(0), currentSteerAngle(0), velocityY(0) {
+Kart::Kart() : position({0, 0, 0}), velocity({0, 0, 0}), rotation(0), 
+               currentSpeed(0), currentSteerAngle(0), velocityY(0), 
+               isDrifting(false), driftDirection(0) {
     Mesh mesh = GenMeshCube(1.8f, 0.8f, 3.0f);
     bodyModel = LoadModelFromMesh(mesh);
     bodyModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].color = RED;
@@ -12,6 +14,9 @@ Kart::Kart() : position({0, 0, 0}), rotation(0), currentSpeed(0), currentSteerAn
     wheels[1] = Wheel({ -0.9f, -0.2f, 1.2f }, 0.5f, true);
     wheels[2] = Wheel({ 0.9f, -0.2f, -1.0f }, 0.5f, false);
     wheels[3] = Wheel({ -0.9f, -0.2f, -1.0f }, 0.5f, false);
+    
+    config.turnSpeed = 100.0f; 
+    config.driftTurnBoost = 1.3f; 
 }
 
 Kart::Kart(Vector3 startPos) : Kart() {
@@ -27,68 +32,89 @@ void Kart::Update(const Track* currentTrack) {
     SurfaceType currentSurface = SurfaceType::NONE;
     float groundHeight = -100.0f;
 
-    // Get track info
     if (currentTrack) {
         currentTrack->GetGroundInfo(position, groundHeight, currentSurface);
     }
 
-    // Determine physics modifiers based on surface
-    float speedMultiplier = 1.0f;
-    float accelMultiplier = 1.0f;
-
-    if (currentSurface == SurfaceType::GRASS) {
-        speedMultiplier = 0.3f;  // 70% slower top speed on grass
-        accelMultiplier = 0.5f;  // Slower acceleration
-    }
+    float speedMultiplier = (currentSurface == SurfaceType::GRASS) ? 0.35f : 1.0f;
 
     // Input
     bool moveLeft = IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A);
     bool moveRight = IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D);
     bool moveUp = IsKeyDown(KEY_UP) || IsKeyDown(KEY_W);
     bool moveDown = IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S);
+    bool driftKey = IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_SPACE);
 
-    // Turning
-    if (moveLeft) rotation += config.turnSpeed * dt;
-    if (moveRight) rotation -= config.turnSpeed * dt;
+    // Drifting Toggle Logic
+    if (driftKey && !isDrifting && currentSpeed > (config.maxSpeed * 0.4f)) {
+        if (moveLeft) { isDrifting = true; driftDirection = 1; velocityY = 3.5f; }
+        else if (moveRight) { isDrifting = true; driftDirection = -1; velocityY = 3.5f; }
+    }
 
-    // Acceleration with Grass Penalty
-    float targetMaxSpeed = config.maxSpeed * speedMultiplier;
-    
-    if (moveUp) {
-        currentSpeed += config.acceleration * accelMultiplier * dt;
-    } else if (moveDown) {
-        currentSpeed -= config.acceleration * dt;
+    if (!driftKey) isDrifting = false;
+
+    // Physics: Handling Rotation
+    if (isDrifting) {
+        float steerInput = (float)moveLeft - (float)moveRight;
+        // The nose of the kart points sharply into the turn
+        rotation += (driftDirection * config.turnSpeed * config.driftTurnBoost * dt);
+        // User can slightly influence the angle
+        rotation += (steerInput * config.turnSpeed * 0.4f * dt);
     } else {
-        // Natural friction
-        if (currentSpeed > 0) currentSpeed -= config.friction * dt;
-        else if (currentSpeed < 0) currentSpeed += config.friction * dt;
-        if (fabsf(currentSpeed) < 0.5f) currentSpeed = 0;
+        if (moveLeft) rotation += config.turnSpeed * dt;
+        if (moveRight) rotation -= config.turnSpeed * dt;
     }
 
-    // Apply speed cap (Dynamic based on surface)
-    if (currentSpeed > targetMaxSpeed) {
-        // If we just entered grass at high speed, bleed speed off quickly
-        currentSpeed = Lerp(currentSpeed, targetMaxSpeed, 5.0f * dt);
-    }
-    if (currentSpeed < -targetMaxSpeed / 3) currentSpeed = -targetMaxSpeed / 3;
+    // Physics: Speed
+    float targetMaxSpeed = config.maxSpeed * speedMultiplier;
+    if (moveUp) currentSpeed += config.acceleration * dt;
+    else if (moveDown) currentSpeed -= config.acceleration * dt;
+    else currentSpeed = Lerp(currentSpeed, 0, 2.0f * dt);
 
-    // Gravity
-    velocityY -= 30.0f * dt;
+    currentSpeed = Clamp(currentSpeed, -targetMaxSpeed/3, targetMaxSpeed);
+
+    // Physics: Movement Vector (The "Slide")
+    Vector3 forwardDir = { sinf(rotation * DEG2RAD), 0, cosf(rotation * DEG2RAD) };
+    
+    // Low friction while drifting means velocity doesn't align with rotation immediately
+    float grip = isDrifting ? 1.4f : 8.0f; 
+    
+    velocity.x = Lerp(velocity.x, forwardDir.x * currentSpeed, grip * dt);
+    velocity.z = Lerp(velocity.z, forwardDir.z * currentSpeed, grip * dt);
+
+    // Gravity & Position
+    velocityY -= 25.0f * dt;
+    position.x += velocity.x * dt;
+    position.z += velocity.z * dt;
     position.y += velocityY * dt;
 
-    // Movement
-    position.x += sinf(rotation * DEG2RAD) * currentSpeed * dt;
-    position.z += cosf(rotation * DEG2RAD) * currentSpeed * dt;
-
-    // Ground Snap
-    float kartHeightOffset = 0.4f;
-    if (position.y - kartHeightOffset < groundHeight) {
-        position.y = groundHeight + kartHeightOffset;
-        velocityY = 0.0f;
+    // Ground Collision
+    if (position.y < groundHeight + 0.4f) {
+        position.y = groundHeight + 0.4f;
+        velocityY = 0;
     }
+
+    // Wheel visual steering
+    float targetSteer = (moveLeft ? 25.0f : (moveRight ? -25.0f : 0));
+    currentSteerAngle = Lerp(currentSteerAngle, targetSteer, 10.0f * dt);
 }
 
 void Kart::Draw() const {
-    DrawModelEx(bodyModel, position, (Vector3){0, 1, 0}, rotation, (Vector3){1, 1, 1}, WHITE);
-    for(int i = 0; i < 4; i++) wheels[i].Draw(position, rotation, currentSteerAngle, 0);
+    // 1. Calculate Tilt Angle
+    float tiltAngle = isDrifting ? (driftDirection * 7.0f) : 0;
+
+    // 2. Build the transformation matrix for DRAWING (don't save to bodyModel)
+    Matrix matRotation = MatrixRotateY(rotation * DEG2RAD);
+    Matrix matTilt = MatrixRotateZ(tiltAngle * DEG2RAD);
+    Matrix matTransform = MatrixMultiply(matTilt, matRotation);
+    matTransform = MatrixMultiply(matTransform, MatrixTranslate(position.x, position.y, position.z));
+
+    // 3. Draw using the temporary matrix
+    // We use the first mesh of the model to draw with the calculated transform
+    DrawMesh(bodyModel.meshes[0], bodyModel.materials[0], matTransform);
+    
+    // 4. Render wheels
+    for(int i = 0; i < 4; i++) {
+        wheels[i].Draw(position, rotation, currentSteerAngle, 0);
+    }
 }
