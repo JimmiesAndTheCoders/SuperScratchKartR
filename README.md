@@ -80,7 +80,10 @@ I made this roadmap, just for development of things that are crucial for this ga
 * [x] Add drifting, and a more robust physics system.
 * [ ] Add character models and animations.
 * [ ] Implement AI opponents.
+* [ ] Add lightning and shaders
 * [ ] Optimize performance and fix bugs.
+* [ ] Add crash handler
+* [ ] Add options and settings
 
 ## :star2: Credits
 
