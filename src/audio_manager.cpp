@@ -9,10 +9,9 @@ AudioManager::AudioManager() : audioReady(false) {
 
         raceTheme = LoadMusicStream("assets/audio/music/race_theme.mp3");
         engineLoop = LoadSound("assets/audio/sounds/engine_loop.wav");
-        driftLoop = LoadSound("assets/audio/sounds/drift.wav");
+        driftSound = LoadSound("assets/audio/sounds/drift.wav");
 
         raceTheme.looping = true;
-        
         PlaySound(engineLoop);
     }
 }
@@ -21,31 +20,36 @@ AudioManager::~AudioManager() {
     if (audioReady) {
         UnloadMusicStream(raceTheme);
         UnloadSound(engineLoop);
-        UnloadSound(driftLoop);
+        UnloadSound(driftSound);
         CloseAudioDevice();
     }
 }
 
-void AudioManager::Update(float kartSpeed, float maxSpeed, bool isDrifting) {
+void AudioManager::Update(float kartSpeed, float maxSpeed) {
     if (!audioReady) return;
 
     UpdateMusicStream(raceTheme);
 
-    // Engine Pitch
     float speedRatio = fabsf(kartSpeed) / maxSpeed;
     float targetPitch = 0.8f + (speedRatio * 1.2f);
     SetSoundPitch(engineLoop, targetPitch);
 
-    if (!IsSoundPlaying(engineLoop)) PlaySound(engineLoop);
+    if (!IsSoundPlaying(engineLoop)) {
+        PlaySound(engineLoop);
+    }
+}
 
-    // Drift Sound Logic
+void AudioManager::UpdateDriftSound(bool isDrifting) {
+    if (!audioReady) return;
+
     if (isDrifting) {
-        if (!IsSoundPlaying(driftLoop)) PlaySound(driftLoop);
-        // Fade in or maintain volume
-        SetSoundVolume(driftLoop, 0.7f);
+        if (!IsSoundPlaying(driftSound)) {
+            PlaySound(driftSound);
+        }
     } else {
-        // Quickly fade out or stop
-        StopSound(driftLoop);
+        if (IsSoundPlaying(driftSound)) {
+            StopSound(driftSound);
+        }
     }
 }
 

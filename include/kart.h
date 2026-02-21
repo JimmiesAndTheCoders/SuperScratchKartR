@@ -3,6 +3,8 @@
 
 #include "raylib.h"
 #include "wheel.h"
+#include "particle_system.h"
+#include "drift_controller.h"
 
 class Track;
 
@@ -11,8 +13,6 @@ struct KartPhysics {
     float friction = 15.0f;
     float maxSpeed = 45.0f;
     float turnSpeed = 130.0f;
-    float driftTurnBoost = 1.5f; // Faster turning while drifting
-    float gripLossThreshold = 0.6f; // Speed % required to start a drift
 };
 
 class Kart {
@@ -26,24 +26,24 @@ public:
 
     Vector3 GetPosition() const { return position; }
     float GetRotation() const { return rotation; }
-    float GetSpeed() const { return currentSpeed; }
+    float GetSpeed() const; 
     bool IsDrifting() const { return isDrifting; }
 
 private:
     Vector3 position;
-    Vector3 velocity; // For robust physics
+    Vector3 velocity; // Replaced currentSpeed with a robust velocity vector
     float rotation;
-    float currentSpeed;
     float currentSteerAngle;
     float velocityY;
-
-    // Drift State
+    
     bool isDrifting;
-    int driftDirection; // -1 for Left, 1 for Right, 0 for None
 
     KartPhysics config;
     Model bodyModel;
+    DriftController drifter;
     Wheel wheels[4];
+    
+    ParticleSystem dustParticles; // Added our new particle system
 };
 
 #endif

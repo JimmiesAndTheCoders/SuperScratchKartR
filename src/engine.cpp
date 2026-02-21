@@ -20,14 +20,20 @@ Engine::~Engine() {
 void Engine::Update() {
     if (IsKeyPressed(KEY_ESCAPE)) {
         isPaused = !isPaused;
-        if (isPaused) SetMasterVolume(0.3f);
-        else SetMasterVolume(1.0f);
+
+        if (isPaused) {
+            SetMasterVolume(0.3f);
+        } else {
+            SetMasterVolume(1.0f);
+        }
     }
 
     if (!isPaused) {
         player->Update(currentTrack);
         cameraSystem.Update(player->GetPosition(), player->GetRotation());
-        audioSystem.Update(player->GetSpeed(), 45.0f, player->IsDrifting());
+        
+        audioSystem.Update(player->GetSpeed(), 45.0f);
+        audioSystem.UpdateDriftSound(player->IsDrifting());
     }
 }
 
