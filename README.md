@@ -77,7 +77,7 @@ I made this roadmap, just for development of things that are crucial for this ga
 * [x] Implement basic kart physics and controls.
 * [x] Add sound effects and music.
 * [x] Add .glb files for track. (formerly .obj)
-* [x] Add drifting, and a more robust physics system.
+* [ ] Add drifting, and a more robust physics system.
 * [ ] Add character models and animations.
 * [ ] Implement AI opponents.
 * [ ] Add lightning and shaders
