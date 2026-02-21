@@ -7,25 +7,27 @@
 #include "renderer.h"
 #include "globals.h"
 #include "kart.h"
+#include "track.h"
 
 class Engine {
-    public:
-        Engine();
-        ~Engine();
-        
-        void Run();
-    
-    private:
-        void Update();
-        void Draw();
-        
-        CameraManager cameraSystem;
-        AudioManager audioSystem;
-        Renderer renderer;
-        Kart* player;
-        
-        bool isPaused;
-        bool shouldClose;
+public:
+    Engine();
+    ~Engine();
+
+    void Run();
+
+private:
+    void Update();
+    void Draw();
+
+    CameraManager cameraSystem;
+    AudioManager audioSystem;
+    Renderer renderer;
+    Kart* player;
+    Track* currentTrack;
+
+    bool isPaused;
+    bool shouldClose;
 };
 
 #endif

@@ -5,14 +5,14 @@
 #include "camera_manager.h"
 #include "kart.h"
 #include "ui_manager.h"
+#include "track.h"
 
 class Renderer {
 public:
     Renderer();
     ~Renderer();
 
-    // The main function to draw everything
-    void RenderFrame(const CameraManager& cameraSystem, const Kart* player, bool isPaused);
+    void RenderFrame(const CameraManager& cameraSystem, const Kart* player, const Track* track, bool isPaused);
 
 private:
     void DrawWorld();

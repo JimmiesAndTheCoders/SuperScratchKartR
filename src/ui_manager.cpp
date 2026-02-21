@@ -7,7 +7,7 @@ void UIManager::DrawGameUI(const Kart* player) {
     // UI Header
     DrawRectangle(0, 0, SCREEN_WIDTH, 45, Fade(BLACK, 0.5f));
     DrawText("SUPER SCRATCH KART R", 20, 12, 20, RAYWHITE);
-    DrawText(TextFormat("Development Build 2"), 1060, SCREEN_HEIGHT - 40, 20, Fade(RAYWHITE, 0.5f));
+    DrawText(TextFormat("Development Build 3"), 1060, SCREEN_HEIGHT - 40, 20, Fade(RAYWHITE, 0.5f));
         
     // Speedometer
     if (player) {

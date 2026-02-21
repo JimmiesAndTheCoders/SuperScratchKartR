@@ -4,6 +4,8 @@
 #include "raylib.h"
 #include "wheel.h"
 
+class Track; 
+
 struct KartPhysics {
     float acceleration = 35.0f;
     float friction = 15.0f;
@@ -16,8 +18,8 @@ public:
     Kart();
     Kart(Vector3 startPos);
     ~Kart();
-    
-    void Update();
+
+    void Update(const Track* currentTrack); 
     void Draw() const;
 
     Vector3 GetPosition() const { return position; }
@@ -26,9 +28,11 @@ public:
 
 private:
     Vector3 position;
-    float rotation;        
+    float rotation;
     float currentSpeed;
-	float currentSteerAngle;    
+    float currentSteerAngle;
+    float velocityY; 
+
     KartPhysics config;
     Model bodyModel;
     Wheel wheels[4];

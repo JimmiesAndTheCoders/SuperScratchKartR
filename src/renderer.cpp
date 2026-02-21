@@ -5,12 +5,16 @@
 Renderer::Renderer() {}
 Renderer::~Renderer() {}
 
-void Renderer::RenderFrame(const CameraManager& cameraSystem, const Kart* player, bool isPaused) {
+void Renderer::RenderFrame(const CameraManager& cameraSystem, const Kart* player, const Track* track, bool isPaused) {
     BeginDrawing();
         ClearBackground(SKYBLUE);
         BeginMode3D(cameraSystem.GetInternalCamera());
-            DrawWorld();
+            
+            // DrawWorld();
+
+            if (track) track->Draw();
             if (player) player->Draw();
+
         EndMode3D();
 
         ui.DrawGameUI(player);
@@ -19,7 +23,6 @@ void Renderer::RenderFrame(const CameraManager& cameraSystem, const Kart* player
 }
 
 void Renderer::DrawWorld() {
-    // Checkered ground feel
     DrawPlane({0, -0.5f, 0}, {1000, 1000}, DARKGREEN);
     DrawGrid(100, 10.0f);
 }
