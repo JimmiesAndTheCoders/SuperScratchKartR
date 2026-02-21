@@ -74,16 +74,38 @@ I made this roadmap, just for development of things that are crucial for this ga
 
 ### Development
 
+#### Completed Tasks
+
 * [x] Implement basic kart physics and controls.
 * [x] Add sound effects and music.
-* [x] Add .glb files for track. (formerly .obj)
+* [x] Add .glb files for track (formerly .obj).
 * [x] Add drifting, and a more robust physics system.
+
+#### In Progress & Upcoming
+
 * [ ] Add character models and animations.
-* [ ] Implement AI opponents.
-* [ ] Add lightning and shaders
-* [ ] Optimize performance and fix bugs.
-* [ ] Add crash handler
-* [ ] Add options and settings
+* [ ] Add .ttf font and replace current font assets.
+* [ ] Implement a suspension system for better terrain handling.
+* [ ] Implement power-up system (boosts, projectiles, obstacles) by question lootboxes.
+* [ ] Create UI HUD (Speedometer, Lap counter, Position).
+* [ ] Design a "Mini-map" system to track player.
+* [ ] Design and implement multiple race tracks.
+* [ ] Add local split-screen or online multiplayer support.
+* [ ] Implement AI opponents with waypoint pathfinding.
+* [ ] Implement AI defensive/offensive logic (using power-ups strategically).
+* [ ] Add environmental hazards (oil spills, falling rocks).
+* [ ] Add dynamic lighting and custom shaders (smoke, sparks).
+* [ ] Create a particle system for mud, grass, and drift marks.
+* [ ] Implement a camera shake system for high speeds and collisions.
+* [ ] Optimize performance and fix physics engine bugs.
+* [ ] Add crash handler and error logging system.
+* [ ] Integrate a save system for high scores and unlocks.
+* [ ] Add settings menu (audio, graphics) and credits.
+* [ ] Implement a "Replay System" to watch previous races.
+* [ ] Add a main menu screen, game/player/map select.
+* [ ] Implement a localization system for multi-language support.
+* [ ] Add an achievement and trophy system.
+* [ ] Final touches, and end roadmap.
 
 ## :star2: Credits
 
