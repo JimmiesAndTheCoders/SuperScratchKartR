@@ -84,6 +84,7 @@ I made this roadmap, just for development of things that are crucial for this ga
 #### In Progress & Upcoming
 
 * [ ] Add character models and animations.
+* [ ] Add tree models scattered around without lagging.
 * [ ] Add .ttf font and replace current font assets.
 * [ ] Implement a suspension system for better terrain handling.
 * [ ] Implement power-up system (boosts, projectiles, obstacles) by question lootboxes.
@@ -91,6 +92,7 @@ I made this roadmap, just for development of things that are crucial for this ga
 * [ ] Design a "Mini-map" system to track player.
 * [ ] Design and implement multiple race tracks.
 * [ ] Add local split-screen or online multiplayer support.
+* [ ] Add debug system by Konami Code.
 * [ ] Implement AI opponents with waypoint pathfinding.
 * [ ] Implement AI defensive/offensive logic (using power-ups strategically).
 * [ ] Add environmental hazards (oil spills, falling rocks).
