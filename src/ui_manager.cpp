@@ -1,4 +1,5 @@
 #include "ui_manager.h"
+#include "font_manager.h"
 #include "globals.h"
 #include <vector>
 #include <string>
@@ -9,29 +10,35 @@ struct ControlRow {
     Color actionColor;
 };
 
-static void RenderControlRow(int x, int y, int keyColWidth, const ControlRow& row, int fontSize) {
-    DrawText(row.key.c_str(), x, y, fontSize, RAYWHITE);
-    DrawText(row.action.c_str(), x + keyColWidth + 40, y, fontSize, row.actionColor);
-}
-
 UIManager::UIManager() {}
 
+void UIManager::DrawCustomText(const char* text, Vector2 pos, float fontSize, Color color) {
+    DrawTextEx(FontManager::GetMainFont(), text, pos, fontSize, 1.0f, color);
+}
+
+static void RenderControlRow(int x, int y, int keyColWidth, const ControlRow& row, float fontSize) {
+    Font font = FontManager::GetMainFont();
+    DrawTextEx(font, row.key.c_str(), {(float)x, (float)y}, fontSize, 1.0f, RAYWHITE);
+    DrawTextEx(font, row.action.c_str(), {(float)(x + keyColWidth + 40), (float)y}, fontSize, 1.0f, row.actionColor);
+}
+
 void UIManager::DrawGameUI(const Kart* player) {
-    // UI Header
     DrawRectangle(0, 0, GetScreenWidth(), 45, Fade(BLACK, 0.5f));
-    DrawText("SUPER SCRATCH KART R", 20, 12, 20, RAYWHITE);
+    DrawCustomText("SUPER SCRATCH KART R", {20, 10}, 32, RAYWHITE);
     
-    const char* buildText = "Development Build 5";
-    int buildWidth = MeasureText(buildText, 20);
-    DrawText(buildText, GetScreenWidth() - buildWidth - 20, GetScreenHeight() - 40, 20, Fade(RAYWHITE, 0.5f));
+    std::string fpsText = std::to_string(GetFPS()) + " FPS";
+    Vector2 fpsSize = MeasureTextEx(FontManager::GetMainFont(), fpsText.c_str(), 24, 1);
+    DrawCustomText(fpsText.c_str(), {(float)(GetScreenWidth() - fpsSize.x - 20), 12}, 24, LIME);
+    
+    const char* buildText = "Development Build 7";
+    Vector2 buildSize = MeasureTextEx(FontManager::GetMainFont(), buildText, 18, 1);
+    DrawCustomText(buildText, {(float)(GetScreenWidth() - buildSize.x - 20), (float)(GetScreenHeight() - 35)}, 18, Fade(RAYWHITE, 0.4f));
         
-    // Speedometer
     if (player) {
         int speed = (int)player->GetSpeed();
-        DrawText(TextFormat("SPEED: %i KM/H", speed), 20, GetScreenHeight() - 40, 30, YELLOW);
+        std::string speedStr = "SPEED: " + std::to_string(speed) + " KM/H";
+        DrawCustomText(speedStr.c_str(), {20, (float)(GetScreenHeight() - 55)}, 40, YELLOW);
     }
-      
-    DrawFPS(GetScreenWidth() - 100, 10);
 }
 
 void UIManager::DrawPauseScreen() {
@@ -41,12 +48,14 @@ void UIManager::DrawPauseScreen() {
     int centerY = GetScreenHeight() / 2;
 
     const char* title = "PAUSED";
-    DrawText(title, centerX - MeasureText(title, 40)/2, centerY - 180, 40, YELLOW);
+    Vector2 titleSize = MeasureTextEx(FontManager::GetMainFont(), title, 60, 1);
+    DrawCustomText(title, {(float)(centerX - titleSize.x / 2), (float)(centerY - 220)}, 60, YELLOW);
 
     DrawControlsTable(centerX, centerY);
 
     const char* hint = "Press ESC to Resume";
-    DrawText(hint, centerX - MeasureText(hint, 20)/2, centerY + 200, 20, DARKGRAY);
+    Vector2 hintSize = MeasureTextEx(FontManager::GetMainFont(), hint, 24, 1);
+    DrawCustomText(hint, {(float)(centerX - hintSize.x / 2), (float)(centerY + 230)}, 24, DARKGRAY);
 }
 
 void UIManager::DrawControlsTable(int centerX, int centerY) {
@@ -59,35 +68,38 @@ void UIManager::DrawControlsTable(int centerX, int centerY) {
         {"ESC", "RESUME", GRAY}
     };
 
-    int fontSize = 20;
-    int titleFontSize = 25;
-    int padding = 40;
-    int margin = 30; 
-    int lineSpacing = 30;
+    float fontSize = 24.0f;
+    float titleFontSize = 32.0f;
+    int padding = 50;
+    int margin = 35; 
+    int lineSpacing = 38;
 
+    Font font = FontManager::GetMainFont();
     int maxKeyWidth = 0;
     int maxActionWidth = 0;
+
     for (const auto& ctrl : controls) {
-        int kw = MeasureText(ctrl.key.c_str(), fontSize);
-        int aw = MeasureText(ctrl.action.c_str(), fontSize);
+        int kw = MeasureTextEx(font, ctrl.key.c_str(), fontSize, 1).x;
+        int aw = MeasureTextEx(font, ctrl.action.c_str(), fontSize, 1).x;
         if (kw > maxKeyWidth) maxKeyWidth = kw;
         if (aw > maxActionWidth) maxActionWidth = aw;
     }
 
-    int tableWidth = maxKeyWidth + maxActionWidth + padding;
-    int boxW = tableWidth + (margin * 2);
-    int boxH = (controls.size() * lineSpacing) + 80; 
+    int boxW = maxKeyWidth + maxActionWidth + padding + (margin * 2);
+    int boxH = (controls.size() * lineSpacing) + 110; 
     
     int boxX = centerX - boxW / 2;
     int boxY = centerY - boxH / 2;
 
-    DrawRectangle(boxX, boxY, boxW, boxH, Fade(BLACK, 0.4f));
-    DrawRectangleLines(boxX, boxY, boxW, boxH, YELLOW);
+    Rectangle boxRect = {(float)boxX, (float)boxY, (float)boxW, (float)boxH};
+    DrawRectangleRounded(boxRect, 0.15f, 8, Fade(BLACK, 0.8f));
+    DrawRectangleRoundedLines(boxRect, 0.15f, 8, YELLOW);
 
     const char* title = "CONTROLS";
-    DrawText(title, centerX - MeasureText(title, titleFontSize) / 2, boxY + 20, titleFontSize, YELLOW);
+    Vector2 tSize = MeasureTextEx(font, title, titleFontSize, 1);
+    DrawCustomText(title, {(float)(centerX - tSize.x / 2), (float)(boxY + 25)}, titleFontSize, YELLOW);
 
-    int startY = boxY + 65;
+    int startY = boxY + 85;
     int startX = boxX + margin;
     
     for (size_t i = 0; i < controls.size(); i++) {

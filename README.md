@@ -84,9 +84,9 @@ I made this roadmap, just for development of things that are crucial for this ga
 * [x] Add drifting, and a more robust physics system.
 * [x] Add character models and animations.
 * [x] Add tree models scattered around without lagging.
+* [x] Add .ttf font and replace current font assets.
 
 #### In Progress & Upcoming
-* [ ] Add .ttf font and replace current font assets.
 * [ ] Add logo and put it into the game.
 * [ ] Implement a suspension system for better terrain handling.
 * [ ] Implement power-up system (boosts, projectiles, obstacles) by question lootboxes.

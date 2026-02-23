@@ -11,6 +11,7 @@ public:
     void DrawPauseScreen();
 
 private:
+	void DrawCustomText(const char* text, Vector2 pos, float fontSize, Color color);
     void DrawControlsTable(int centerX, int centerY);
 };
 
