@@ -55,6 +55,7 @@ void UIManager::DrawControlsTable(int centerX, int centerY) {
         {"S / DOWN", "BRAKE/REV", LIME},
         {"A-D / LEFT-RIGHT", "STEER", LIME},
         {"SHIFT", "DRIFT", LIME},
+        {"Z", "HOP", LIME},
         {"ESC", "RESUME", GRAY}
     };
 
