@@ -81,10 +81,9 @@ I made this roadmap, just for development of things that are crucial for this ga
 * [x] Add .glb files for track (formerly .obj).
 * [x] Add drifting, and a more robust physics system.
 * [x] Add character models and animations.
+* [x] Add tree models scattered around without lagging.
 
 #### In Progress & Upcoming
-
-* [ ] Add tree models scattered around without lagging.
 * [ ] Add .ttf font and replace current font assets.
 * [ ] Add logo and put it into the game.
 * [ ] Implement a suspension system for better terrain handling.

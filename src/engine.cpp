@@ -12,6 +12,9 @@ Engine::Engine() : isPaused(false), shouldClose(false) {
     currentTrack = new Track(trackPath);
     player = new Kart({ 0.0f, 10.0f, 0.0f }, kartPath);
 
+    decoManager.LoadTreeModels();
+    decoManager.GenerateScatteredTrees(currentTrack, 1000, 1500.0f);
+
     audioSystem.PlayMusic();
 }
 
@@ -38,7 +41,7 @@ void Engine::Update() {
 }
 
 void Engine::Draw() {
-    renderer.RenderFrame(cameraSystem, player, currentTrack, isPaused);
+    renderer.RenderFrame(cameraSystem, player, currentTrack, &decoManager, isPaused);
 }
 
 void Engine::Run() {

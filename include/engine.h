@@ -8,6 +8,7 @@
 #include "globals.h"
 #include "kart.h"
 #include "track.h"
+#include "decoration_manager.h"
 
 class Engine {
 public:
@@ -23,6 +24,7 @@ private:
     CameraManager cameraSystem;
     AudioManager audioSystem;
     Renderer renderer;
+    DecorationManager decoManager;
     Kart* player;
     Track* currentTrack;
 

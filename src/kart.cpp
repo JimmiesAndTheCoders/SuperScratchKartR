@@ -33,12 +33,11 @@ Kart::Kart(const char* modelPath)
     settings.turnSpeed = 135.0f;
     settings.friction = 8.0f;
     settings.brakeForce = 200.0f;
-    settings.reverseMaxSpeed = 15.0f;
+    settings.reverseMaxSpeed = 25.0f;
     
     physics = new PhysicsController(settings);
     visualModel.ApplyTexture("assets/images/textures/colormap.png");
     
-    // Initialize juice defaults
     juice.tilt = 0.0f;
     juice.squish = 1.0f;
 }
@@ -64,19 +63,22 @@ void Kart::Update(const Track* currentTrack) {
     KartInputState input = GetKartInput();
     float grassFactor = (surface == SurfaceType::GRASS) ? 0.4f : 1.0f;
     bool isGrounded = (position.y <= currentGroundHeight + 0.25f);
+    
     float speed = GetSpeed();
 
-    if (input.driftHolding && isGrounded && fabsf(speed) > 10.0f && fabsf(input.turn) > 0.1f) {
-        isDrifting = true;
-    } else if (!input.driftHolding) {
-        isDrifting = false;
-    }
+    float effectiveTurn = input.turn;
+    if (speed < -0.1f) effectiveTurn = -input.turn;
 
-    physics->ProcessMovement(velocity, rotation, input.turn, 
+    physics->ProcessMovement(velocity, rotation, effectiveTurn, 
                              input.accelerating, input.braking, 
                              isDrifting, isGrounded, grassFactor, dt);
 
-    position = Vector3Add(position, Vector3Scale(velocity, dt));
+    float newSpeed = GetSpeed();
+    velocity.x = sinf(rotation * DEG2RAD) * newSpeed;
+    velocity.z = cosf(rotation * DEG2RAD) * newSpeed;
+
+    position.x += velocity.x * dt;
+    position.z += velocity.z * dt;
     
     if (isGrounded) {
         position.y = currentGroundHeight + 0.15f;
@@ -87,8 +89,7 @@ void Kart::Update(const Track* currentTrack) {
         position.y += velocityY * dt;
     }
 
-    wheelSpin += speed * 5.0f * dt;
-    
+    wheelSpin += newSpeed * 5.0f * dt;
     juice.squish = Lerp(juice.squish, 1.0f, 10.0f * dt);
     juice.tilt = Lerp(juice.tilt, input.turn * -5.0f, 5.0f * dt);
 
@@ -96,7 +97,6 @@ void Kart::Update(const Track* currentTrack) {
         Vector3 forward = { sinf(rotation * DEG2RAD), 0.0f, cosf(rotation * DEG2RAD) };
         Vector3 right = { cosf(rotation * DEG2RAD), 0.0f, -sinf(rotation * DEG2RAD) };
         Vector3 backPos = Vector3Subtract(position, Vector3Scale(forward, 1.2f));
-        
         dustParticles.EmitDust(Vector3Add(backPos, Vector3Scale(right, 0.6f)), (grassFactor < 1.0f));
         dustParticles.EmitDust(Vector3Add(backPos, Vector3Scale(right, -0.6f)), (grassFactor < 1.0f));
     }

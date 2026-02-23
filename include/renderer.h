@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 #include "camera_manager.h"
+#include "decoration_manager.h"
 #include "kart.h"
 #include "ui_manager.h"
 #include "track.h"
@@ -12,7 +13,7 @@ public:
     Renderer();
     ~Renderer();
 
-    void RenderFrame(const CameraManager& cameraSystem, const Kart* player, const Track* track, bool isPaused);
+    void RenderFrame(const CameraManager& cameraSystem, const Kart* player, const Track* track, const DecorationManager* deco, bool isPaused);
 
 private:
     void DrawWorld();

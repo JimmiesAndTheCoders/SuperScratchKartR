@@ -5,15 +5,16 @@
 Renderer::Renderer() {}
 Renderer::~Renderer() {}
 
-void Renderer::RenderFrame(const CameraManager& cameraSystem, const Kart* player, const Track* track, bool isPaused) {
+void Renderer::RenderFrame(const CameraManager& cameraSystem, const Kart* player, const Track* track, const DecorationManager* deco, bool isPaused) {
     BeginDrawing();
         ClearBackground(SKYBLUE);
         
         BeginMode3D(cameraSystem.GetInternalCamera());
             
-            DrawPlane({0, -0.1f, 0}, {1000, 1000}, DARKGREEN);
+            DrawPlane({0, -0.1f, 0}, {2000, 2000}, DARKGREEN);
             
             if (track) track->Draw();
+            if (deco) deco->Draw();
             if (player) player->Draw();
             
         EndMode3D();
