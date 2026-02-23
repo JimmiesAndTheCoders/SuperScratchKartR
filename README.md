@@ -1,4 +1,4 @@
-# Super Scratch Kart R
+![Super Scratch Kart R Logo](docs/images/sskrlogo.svg)
 
 ![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=flat&logo=c%2B%2B&logoColor=white) ![raylib](https://img.shields.io/badge/engine-raylib-white) ![WIP](https://img.shields.io/badge/status-work%20in%20progress-orange) ![MIT](https://img.shields.io/badge/license-MIT-green)
 
@@ -85,9 +85,9 @@ I made this roadmap, just for development of things that are crucial for this ga
 * [x] Add character models and animations.
 * [x] Add tree models scattered around without lagging.
 * [x] Add .ttf font and replace current font assets.
+* [x] Add logo and put it into the game.
 
 #### In Progress & Upcoming
-* [ ] Add logo and put it into the game.
 * [ ] Implement a suspension system for better terrain handling.
 * [ ] Implement power-up system (boosts, projectiles, obstacles) by question lootboxes.
 * [ ] Create UI HUD (Speedometer, Lap counter, Position).

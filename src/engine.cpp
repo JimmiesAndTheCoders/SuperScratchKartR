@@ -1,5 +1,6 @@
 #include "engine.h"
 #include "font_manager.h"
+#include "logo_manager.h"
 #include <iostream>
 
 Engine::Engine() : isPaused(false), shouldClose(false) {
@@ -17,6 +18,7 @@ Engine::Engine() : isPaused(false), shouldClose(false) {
     decoManager.GenerateScatteredTrees(currentTrack, 1000, 1500.0f);
     
     FontManager::LoadFonts();
+    LogoManager::LoadLogo(50);
 
     audioSystem.PlayMusic();
 }
@@ -24,7 +26,9 @@ Engine::Engine() : isPaused(false), shouldClose(false) {
 Engine::~Engine() {
     delete player;
     delete currentTrack;
+    LogoManager::UnloadLogo();
     FontManager::UnloadFonts();
+    
     CloseWindow();
 }
 
