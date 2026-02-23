@@ -2,48 +2,45 @@
 #define KART_H
 
 #include "raylib.h"
-#include "wheel.h"
+#include "kart_model.h"
 #include "particle_system.h"
-#include "drift_controller.h"
+#include "shadow.h"
 
+class PhysicsController;
 class Track;
-
-struct KartPhysics {
-    float acceleration = 35.0f;
-    float friction = 15.0f;
-    float maxSpeed = 45.0f;
-    float turnSpeed = 130.0f;
-};
 
 class Kart {
 public:
-    Kart();
-    Kart(Vector3 startPos);
+    Kart(const char* modelPath);
+    Kart(Vector3 startPos, const char* modelPath);
     ~Kart();
 
     void Update(const Track* currentTrack);
     void Draw() const;
-
+    
     Vector3 GetPosition() const { return position; }
     float GetRotation() const { return rotation; }
-    float GetSpeed() const; 
     bool IsDrifting() const { return isDrifting; }
+    float GetSpeed() const;
 
 private:
     Vector3 position;
-    Vector3 velocity; // Replaced currentSpeed with a robust velocity vector
-    float rotation;
-    float currentSteerAngle;
+    Vector3 velocity;
+    float rotation; 
     float velocityY;
-    
+    float currentGroundHeight;
     bool isDrifting;
-
-    KartPhysics config;
-    Model bodyModel;
-    DriftController drifter;
-    Wheel wheels[4];
     
-    ParticleSystem dustParticles; // Added our new particle system
+    float wheelSpin;
+    struct {
+        float tilt;
+        float squish;
+    } juice;
+
+    KartModel visualModel;
+    ParticleSystem dustParticles;
+    Shadow blobShadow;
+    PhysicsController* physics;
 };
 
 #endif

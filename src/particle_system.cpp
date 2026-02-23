@@ -1,55 +1,65 @@
 #include "particle_system.h"
 #include "raymath.h"
 
-ParticleSystem::ParticleSystem() {}
-
-ParticleSystem::~ParticleSystem() {
-    particles.clear();
+ParticleSystem::ParticleSystem() {
+    for (int i = 0; i < MAX_PARTICLES; i++) {
+        particles[i].active = false;
+    }
 }
 
-void ParticleSystem::EmitDust(Vector3 position) {
-    Particle p;
-    p.position = position;
-    
-    // Slight random outward pop for the dust
-    p.velocity = { 
-        (float)GetRandomValue(-15, 15) / 10.0f, 
-        (float)GetRandomValue(5, 20) / 10.0f, 
-        (float)GetRandomValue(-15, 15) / 10.0f 
-    };
-    
-    p.life = 0.6f;
-    p.maxLife = 0.6f;
-    p.size = 0.1f;         // Start small
-    p.sizeGrowth = 2.0f;   // Expand rapidly like a cartoon cloud
-    p.color = { 220, 220, 220, 255 }; // Light gray/white dust
-    
-    particles.push_back(p);
+void ParticleSystem::EmitDust(Vector3 position, bool isGrass) {
+    for (int i = 0; i < MAX_PARTICLES; i++) {
+        if (!particles[i].active) {
+            particles[i].active = true;
+            particles[i].position = position;
+            
+            particles[i].velocity = {
+                (float)GetRandomValue(-12, 12) / 10.0f,
+                (float)GetRandomValue(4, 12) / 10.0f,
+                (float)GetRandomValue(-12, 12) / 10.0f
+            };
+            
+            particles[i].lifeSpan = (float)GetRandomValue(3, 7) / 10.0f;
+            particles[i].maxLife = particles[i].lifeSpan;
+            particles[i].size = (float)GetRandomValue(2, 4) / 10.0f;
+            
+            if (isGrass) {
+                int colorType = GetRandomValue(0, 2);
+                if (colorType == 0) particles[i].color = { 101, 67, 33, 255 }; 
+                else if (colorType == 1) particles[i].color = { 139, 69, 19, 255 };
+                else particles[i].color = { 160, 82, 45, 255 };
+            } else {
+                unsigned char gray = (unsigned char)GetRandomValue(180, 220);
+                particles[i].color = { gray, gray, gray, 255 };
+            }
+            
+            break; 
+        }
+    }
 }
 
 void ParticleSystem::Update(float dt) {
-    for (size_t i = 0; i < particles.size(); ) {
-        particles[i].life -= dt;
-        particles[i].position = Vector3Add(particles[i].position, Vector3Scale(particles[i].velocity, dt));
-        particles[i].size += particles[i].sizeGrowth * dt;
-        
-        if (particles[i].life <= 0.0f) {
-            particles.erase(particles.begin() + i);
-        } else {
-            i++;
+    for (int i = 0; i < MAX_PARTICLES; i++) {
+        if (particles[i].active) {
+            particles[i].lifeSpan -= dt;
+            if (particles[i].lifeSpan <= 0) {
+                particles[i].active = false;
+                continue;
+            }
+
+            particles[i].position = Vector3Add(particles[i].position, Vector3Scale(particles[i].velocity, dt));
+            particles[i].size += dt * 0.5f;
+
+            float alpha = (particles[i].lifeSpan / particles[i].maxLife);
+            particles[i].color.a = (unsigned char)(alpha * 160);
         }
     }
 }
 
 void ParticleSystem::Draw() const {
-    for (size_t i = 0; i < particles.size(); i++) {
-        const Particle& p = particles[i];
-        float alpha = p.life / p.maxLife; // Fade out over time
-        
-        Color renderColor = p.color;
-        renderColor.a = (unsigned char)(255.0f * alpha);
-        
-        // Drawing simple spheres works perfectly for cartoon clouds without needing camera billboarding
-        DrawSphere(p.position, p.size, renderColor);
+    for (int i = 0; i < MAX_PARTICLES; i++) {
+        if (particles[i].active) {
+            DrawSphere(particles[i].position, particles[i].size * 0.5f, particles[i].color);
+        }
     }
 }

@@ -2,29 +2,28 @@
 #define PARTICLE_SYSTEM_H
 
 #include "raylib.h"
-#include <vector>
+
+#define MAX_PARTICLES 250
 
 struct Particle {
     Vector3 position;
     Vector3 velocity;
-    float life;
+    Color color;
+    float lifeSpan;
     float maxLife;
     float size;
-    float sizeGrowth;
-    Color color;
+    bool active;
 };
 
 class ParticleSystem {
 public:
     ParticleSystem();
-    ~ParticleSystem();
-
-    void EmitDust(Vector3 position);
     void Update(float dt);
     void Draw() const;
+    void EmitDust(Vector3 position, bool isGrass);
 
 private:
-    std::vector<Particle> particles;
+    Particle particles[MAX_PARTICLES];
 };
 
 #endif

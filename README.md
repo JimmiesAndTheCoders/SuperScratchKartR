@@ -80,12 +80,13 @@ I made this roadmap, just for development of things that are crucial for this ga
 * [x] Add sound effects and music.
 * [x] Add .glb files for track (formerly .obj).
 * [x] Add drifting, and a more robust physics system.
+* [x] Add character models and animations.
 
 #### In Progress & Upcoming
 
-* [ ] Add character models and animations.
 * [ ] Add tree models scattered around without lagging.
 * [ ] Add .ttf font and replace current font assets.
+* [ ] Add logo and put it into the game.
 * [ ] Implement a suspension system for better terrain handling.
 * [ ] Implement power-up system (boosts, projectiles, obstacles) by question lootboxes.
 * [ ] Create UI HUD (Speedometer, Lap counter, Position).
@@ -107,11 +108,13 @@ I made this roadmap, just for development of things that are crucial for this ga
 * [ ] Add a main menu screen, game/player/map select.
 * [ ] Implement a localization system for multi-language support.
 * [ ] Add an achievement and trophy system.
+* [ ] Add a mods and addons system.
 * [ ] Final touches, and end roadmap.
 
 ## :star2: Credits
 
 * Programming: Jimmy Santoyo
+* Model: [Kenney](https://kenney.nl)
 * Original Concept and Characters: [Lucasliu9595](https://scratch.mit.edu/users/Lucasliu9595) and the Scratch Team
 * Music: Kevin Macleod
 * Engine: [raylib](https://www.raylib.com) by Ramon Santamaria ([raysan5](https://github.com/raysan5))

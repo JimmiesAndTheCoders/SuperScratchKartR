@@ -1,12 +1,16 @@
 #include "engine.h"
+#include <iostream>
 
 Engine::Engine() : isPaused(false), shouldClose(false) {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Super Scratch Kart R");
     SetExitKey(KEY_NULL);
     SetTargetFPS(TARGET_FPS);
 
-    currentTrack = new Track("assets/models/tracks/test.glb");
-    player = new Kart((Vector3){ 0.0f, 10.0f, 0.0f });
+    const char* trackPath = "assets/models/tracks/test.glb";
+    const char* kartPath = "assets/models/karts/kart-oopi.glb";
+
+    currentTrack = new Track(trackPath);
+    player = new Kart({ 0.0f, 10.0f, 0.0f }, kartPath);
 
     audioSystem.PlayMusic();
 }
@@ -20,12 +24,8 @@ Engine::~Engine() {
 void Engine::Update() {
     if (IsKeyPressed(KEY_ESCAPE)) {
         isPaused = !isPaused;
-
-        if (isPaused) {
-            SetMasterVolume(0.3f);
-        } else {
-            SetMasterVolume(1.0f);
-        }
+        if (isPaused) SetMasterVolume(0.3f);
+        else SetMasterVolume(1.0f);
     }
 
     if (!isPaused) {
