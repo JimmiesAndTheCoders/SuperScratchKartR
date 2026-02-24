@@ -58,8 +58,17 @@ float Kart::GetSpeed() const {
 
 void Kart::Update(const Track* currentTrack) {
     float dt = GetFrameTime();
+    if (dt > 0.05f) dt = 0.0166f; 
     SurfaceType surface = SurfaceType::ROAD;
     if (currentTrack) currentTrack->GetGroundInfo(position, currentGroundHeight, surface);
+    static bool isInitialized = false;
+    if (!isInitialized && currentTrack) {
+        position.y = currentGroundHeight;
+        velocityY = 0;
+        Quaternion qRot = QuaternionFromEuler(0, rotation * DEG2RAD, 0);
+        suspension.Update(position, qRot, velocity, currentTrack, 0.016f);
+        isInitialized = true;
+    }
 
     KartInputState input = GetKartInput();
     float grassFactor = (surface == SurfaceType::GRASS) ? 0.4f : 1.0f;
@@ -77,33 +86,31 @@ void Kart::Update(const Track* currentTrack) {
     } else if (!input.driftHolding) {
         isDrifting = false;
     }
-
     physics->ProcessMovement(velocity, rotation, effectiveTurn, 
                              input.accelerating, input.braking, 
                              isDrifting, isGrounded, grassFactor, dt);
-
     if (isDrifting && isGrounded) {
         float driftSlowdown = 0.85f;
         velocity = Vector3Scale(velocity, 1.0f - (1.0f - driftSlowdown) * dt * 5.0f);
     }
-
     float newSpeed = GetSpeed();
     velocity.x = sinf(rotation * DEG2RAD) * newSpeed;
     velocity.z = cosf(rotation * DEG2RAD) * newSpeed;
-
     position.x += velocity.x * dt;
     position.z += velocity.z * dt;
-    
     if (isGrounded) {
-        velocityY += (suspForce.y - 9.81f) * dt; 
+        float targetY = currentGroundHeight + 0.05f;
+        float netVerticalForce = suspForce.y - 15.0f; 
+        velocityY += netVerticalForce * dt;
+        velocityY *= 0.9f; 
         position.y += velocityY * dt;
         if (position.y < currentGroundHeight) {
-            position.y = Lerp(position.y, currentGroundHeight + 0.1f, 20.0f * dt);
-            velocityY *= 0.8f;
+            position.y = currentGroundHeight;
+            if (velocityY < 0) velocityY = 0;
         }
 
         if (input.hopPressed) {
-            velocityY = 14.0f; 
+            velocityY = 12.0f; 
             juice.squish = 0.6f;
         }
     } else {
@@ -131,12 +138,10 @@ void Kart::Update(const Track* currentTrack) {
 }
 
 void Kart::Draw() const {
-    blobShadow.Draw({position.x, currentGroundHeight + 0.01f, position.z}, 1.8f, 0.4f);
+    blobShadow.Draw({position.x, currentGroundHeight + 0.02f, position.z}, 1.8f, 0.4f);
     float steerVisual = 0.0f;
     if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A)) steerVisual = 25.0f;
     else if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) steerVisual = -25.0f;
-    
-    // Draw with slight suspension-based height offset
     visualModel.Draw(position, rotation, juice.tilt, juice.squish, wheelSpin, steerVisual, WHITE);
     dustParticles.Draw();
 }

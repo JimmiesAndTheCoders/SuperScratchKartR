@@ -5,10 +5,10 @@ SuspensionSystem::SuspensionSystem() {
     float w = 0.75f; 
     float l = 0.95f; 
     
-    wheels[0].localOffset = {  w, 0.0f,  l };
-    wheels[1].localOffset = { -w, 0.0f,  l };
-    wheels[2].localOffset = {  w, 0.0f, -l };
-    wheels[3].localOffset = { -w, 0.0f, -l };
+    wheels[0].localOffset = {  w, 0.0f,  l }; 
+    wheels[1].localOffset = { -w, 0.0f,  l }; 
+    wheels[2].localOffset = {  w, 0.0f, -l }; 
+    wheels[3].localOffset = { -w, 0.0f, -l }; 
 
     for (int i = 0; i < 4; i++) {
         wheels[i].suspensionLength = restLength;
@@ -20,10 +20,10 @@ SuspensionSystem::SuspensionSystem() {
 Vector3 SuspensionSystem::Update(const Vector3& kartPos, const Quaternion& qRot, const Vector3& kartVelocity, const Track* track, float dt) {
     Vector3 totalSpringForce = { 0, 0, 0 };
     if (dt <= 0) return totalSpringForce;
+    const float k_stiffness = 450.0f;
+    const float k_damping = 45.0f;
+    const float k_rideHeight = 0.35f;
 
-    const float k_stiffness = 100.0f; 
-    const float k_damping = 100.0f;     
-    const float k_rideHeight = 0.45f;
     for (int i = 0; i < 4; i++) {
         Vector3 worldOffset = Vector3RotateByQuaternion(wheels[i].localOffset, qRot);
         Vector3 rayOrigin = Vector3Add(kartPos, worldOffset);
@@ -34,6 +34,7 @@ Vector3 SuspensionSystem::Update(const Vector3& kartPos, const Quaternion& qRot,
         wheels[i].isGrounded = false;
         if (track && track->GetGroundInfo(rayOrigin, groundHeight, surface)) {
             float distToGround = rayOrigin.y - groundHeight;
+            
             if (distToGround <= restLength) {
                 wheels[i].isGrounded = true;
                 wheels[i].suspensionLength = distToGround;
@@ -44,7 +45,6 @@ Vector3 SuspensionSystem::Update(const Vector3& kartPos, const Quaternion& qRot,
                 totalSpringForce.y += forceMag;
             }
         }
-
         if (!wheels[i].isGrounded) {
             wheels[i].suspensionLength = restLength;
         }
