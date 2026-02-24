@@ -12,7 +12,7 @@ Engine::Engine() : isPaused(false), shouldClose(false) {
     const char* kartPath = "assets/models/karts/kart-oopi.glb";
 
     currentTrack = new Track(trackPath);
-    player = new Kart({ 0.0f, 10.0f, 0.0f }, kartPath);
+    player = new Kart({ 0.0f, 1.0f, 0.0f }, kartPath);
 
     decoManager.LoadTreeModels();
     decoManager.GenerateScatteredTrees(currentTrack, 1000, 1500.0f);
