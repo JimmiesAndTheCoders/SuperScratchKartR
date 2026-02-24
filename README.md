@@ -86,9 +86,9 @@ I made this roadmap, just for development of things that are crucial for this ga
 * [x] Add tree models scattered around without lagging.
 * [x] Add .ttf font and replace current font assets.
 * [x] Add logo and put it into the game.
+* [x] Implement a suspension system for better terrain handling.
 
 #### In Progress & Upcoming
-* [ ] Implement a suspension system for better terrain handling.
 * [ ] Implement power-up system (boosts, projectiles, obstacles) by question lootboxes.
 * [ ] Create UI HUD (Speedometer, Lap counter, Position).
 * [ ] Design a "Mini-map" system to track player.

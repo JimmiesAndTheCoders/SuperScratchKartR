@@ -5,6 +5,7 @@
 #include "kart_model.h"
 #include "particle_system.h"
 #include "shadow.h"
+#include "suspension_system.h"
 
 class PhysicsController;
 class Track;
@@ -35,12 +36,14 @@ private:
     struct {
         float tilt;
         float squish;
+        Vector3 visualOffset;
     } juice;
 
     KartModel visualModel;
     ParticleSystem dustParticles;
     Shadow blobShadow;
     PhysicsController* physics;
+    SuspensionSystem suspension;
 };
 
 #endif
