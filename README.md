@@ -1,4 +1,4 @@
-![Super Scratch Kart R Logo](docs/images/sskrlogo.svg)
+# ![Super Scratch Kart R Logo](docs/images/sskrlogo.svg)
 
 ![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=flat&logo=c%2B%2B&logoColor=white) ![raylib](https://img.shields.io/badge/engine-raylib-white) ![WIP](https://img.shields.io/badge/status-work%20in%20progress-orange) ![MIT](https://img.shields.io/badge/license-MIT-green)
 
@@ -38,11 +38,12 @@ A free, open-source fan-made 3D kart racing game inspired by SuperTuxKart and th
 * raylib 5.5+.
 * CMake 4.2.3+ (Required for build configuration)
 * Git
-* Notepad++ or Dev-C++ (recommended for development)
+* Notepad++ or Visual Studio Code (recommended for development)
 
 ### Building from source
 
 Open a terminal and run these commands:
+
 ```bash
 git clone https://github.com/JimmiesAndTheCoders/SuperScratchKartR.git
 cd SuperScratchKartR
@@ -53,12 +54,14 @@ cd SuperScratchKartR
 #### :window: Windows
 
 Ensure you have **raylib** installed at `C:\raylib`.
+
 1. Open the project folder.
 2. Run `build.bat`
 
 #### :penguin: Linux
 
 Ensure you have `gcc` and `raylib` development headers installed (`libraylib-dev`).
+
 1. Open your terminal in the project folder.
 2. Make the script executable: `chmod +x build.sh`
 3. Run it: `./build.sh`
@@ -66,6 +69,7 @@ Ensure you have `gcc` and `raylib` development headers installed (`libraylib-dev
 #### :apple: MacOS
 
 Ensure you have `brew install raylib` or the raylib framework installed.
+
 1. Open your terminal in the project folder.
 2. Make the script executable: `chmod +x build.sh`
 3. Run it: `./build.sh`
@@ -89,10 +93,14 @@ I made this roadmap, just for development of things that are crucial for this ga
 * [x] Implement a suspension system for better terrain handling.
 
 #### In Progress & Upcoming
+
 * [ ] Implement power-up system (boosts, projectiles, obstacles) by question lootboxes.
 * [ ] Create UI HUD (Speedometer, Lap counter, Position).
+* [ ] Remodel the entire track, now with grass.
+* [ ] Redesign the pause screen, now with moving stripes, and with some shadows.
 * [ ] Design a "Mini-map" system to track player.
 * [ ] Design and implement multiple race tracks.
+* [ ] Add more characters and karts with unique stats.
 * [ ] Add local split-screen or online multiplayer support.
 * [ ] Add debug system by Konami Code.
 * [ ] Implement AI opponents with waypoint pathfinding.
@@ -100,11 +108,14 @@ I made this roadmap, just for development of things that are crucial for this ga
 * [ ] Add environmental hazards (oil spills, falling rocks).
 * [ ] Add dynamic lighting and custom shaders (smoke, sparks).
 * [ ] Create a particle system for mud, grass, and drift marks.
+* [ ] Remaster the physics for the kart's suspension, and add a more robust collision system.
+* [ ] Add a screen capture tool.
 * [ ] Implement a camera shake system for high speeds and collisions.
 * [ ] Optimize performance and fix physics engine bugs.
 * [ ] Add crash handler and error logging system.
 * [ ] Integrate a save system for high scores and unlocks.
 * [ ] Add settings menu (audio, graphics) and credits.
+* [ ] Add a screen recorder with using ffmpeg.
 * [ ] Implement a "Replay System" to watch previous races.
 * [ ] Add a main menu screen, game/player/map select.
 * [ ] Implement a localization system for multi-language support.
