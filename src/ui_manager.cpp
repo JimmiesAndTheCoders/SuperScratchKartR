@@ -29,6 +29,19 @@ void UIManager::DrawGameUI(const Kart* player) {
         int speed = (int)player->GetSpeed();
         std::string speedStr = "SPEED: " + std::to_string(speed) + " KM/H";
         DrawCustomText(speedStr.c_str(), {20, (float)(GetScreenHeight() - 55)}, 40, YELLOW);
+
+        PowerUpSlot slot = player->GetPowerUp();
+        if (slot != PowerUpSlot::NONE) {
+            const char* name = "";
+            switch (slot) {
+                case PowerUpSlot::BOOST: name = "BOOST"; break;
+                case PowerUpSlot::PROJECTILE: name = "PROJECTILE"; break;
+                case PowerUpSlot::OBSTACLE: name = "OBSTACLE"; break;
+                default: name = ""; break;
+            }
+            std::string puText = "POWER-UP: "; puText += name;
+            DrawCustomText(puText.c_str(), {20, (float)(GetScreenHeight() - 90)}, 30, ORANGE);
+        }
     }
 }
 

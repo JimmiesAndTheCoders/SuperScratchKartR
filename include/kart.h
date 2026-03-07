@@ -10,6 +10,9 @@
 class PhysicsController;
 class Track;
 
+// power-up types that a kart can carry/use
+enum class PowerUpSlot { NONE, BOOST, PROJECTILE, OBSTACLE };
+
 class Kart {
 public:
     Kart(const char* modelPath);
@@ -23,6 +26,11 @@ public:
     float GetRotation() const { return rotation; }
     bool IsDrifting() const { return isDrifting; }
     float GetSpeed() const;
+
+    // power-up API
+    void SetPowerUp(PowerUpSlot slot) { currentPower = slot; }
+    PowerUpSlot GetPowerUp() const { return currentPower; }
+    void UsePowerUp();
 
 private:
     Vector3 position;
@@ -44,6 +52,10 @@ private:
     Shadow blobShadow;
     PhysicsController* physics;
     SuspensionSystem suspension;
+
+    // power-up state
+    PowerUpSlot currentPower = PowerUpSlot::NONE;
+    float powerTimer = 0.0f;
 };
 
 #endif
