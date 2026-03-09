@@ -21,7 +21,7 @@ void UIManager::DrawGameUI(const Kart* player) {
     Vector2 fpsSize = MeasureTextEx(FontManager::GetMainFont(), fpsText.c_str(), 24, 1);
     DrawCustomText(fpsText.c_str(), {(float)(GetScreenWidth() - fpsSize.x - 20), 18}, 24, LIME);
     
-    const char* buildText = "Development Build 9";
+    const char* buildText = "Development Build 1.0";
     Vector2 buildSize = MeasureTextEx(FontManager::GetMainFont(), buildText, 18, 1);
     DrawCustomText(buildText, {(float)(GetScreenWidth() - buildSize.x - 20), (float)(GetScreenHeight() - 35)}, 18, Fade(RAYWHITE, 0.4f));
         
