@@ -20,7 +20,7 @@ I made this roadmap, just for development of things that are crucial for this ga
 ### In Progress & Upcoming
 
 * [ ] Remodel the entire track, now with using .sskrt files.
-* [ ] Redesing the UI HUD, now with redesigned speedometer, 
+* [ ] Redesing the UI HUD, now with redesigned speedometer, a lap counter, some changes, etc.
 * [ ] Redesign the pause screen, now with moving stripes for the bg, and with some shadows.
 * [ ] Add windowed and fullscreen mode.
 * [ ] Add an exit button for those who want to exit the game on fullscreen.
