@@ -19,9 +19,12 @@ I made this roadmap, just for development of things that are crucial for this ga
 
 ### In Progress & Upcoming
 
-* [ ] Create UI HUD (Speedometer, Lap counter, Position).
 * [ ] Remodel the entire track, now with using .sskrt files.
+* [ ] Redesing the UI HUD, now with redesigned speedometer, 
 * [ ] Redesign the pause screen, now with moving stripes for the bg, and with some shadows.
+* [ ] Add windowed and fullscreen mode.
+* [ ] Add an exit button for those who want to exit the game on fullscreen.
+* [ ] Add a "Results" screen after each race.
 * [ ] Design a "Mini-map" system to track player.
 * [ ] Add 4 different game modes: Grand Prix, Time Trial, Versus, and Battle Mode.
 * [ ] Add more power-ups and items (missiles, shields, speed boosts).
