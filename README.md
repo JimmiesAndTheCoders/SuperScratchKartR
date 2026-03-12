@@ -29,6 +29,7 @@ A free, open-source fan-made 3D kart racing game inspired by SuperTuxKart and th
 | Drift          | L Shift / R Shift |
 | Hop            | Z                 |
 | Pause          | Esc               |
+| Item Use       | Space             |
 
 ## :hammer_and_wrench: Build Instructions
 
