@@ -16,7 +16,7 @@
 #include "../include/raygui.h"
 #pragma GCC diagnostic pop
 
-LevelEditor::LevelEditor()
+LevelEditor::LevelEditor(bool dumpFramesFlag, const char* dumpDir)
     : shouldClose(false)
     , gridEnabled(true)
     , fileDirty(false)
@@ -26,6 +26,11 @@ LevelEditor::LevelEditor()
     , currentTrack(nullptr)
     , menu()
     , scene() {
+    dumpFrames = dumpFramesFlag;
+    if (dumpDir && dumpDir[0] != '\0') {
+        strncpy(dumpFramesDir, dumpDir, sizeof(dumpFramesDir) - 1);
+        dumpFramesDir[sizeof(dumpFramesDir) - 1] = '\0';
+    }
     currentFile[0] = '\0';
     currentTrackPath[0] = '\0';
     fileDialogDirectory[0] = '\0';
@@ -119,6 +124,20 @@ void LevelEditor::Draw() {
     DrawText(statusText, 10, GetScreenHeight() - 20, 12, DARKGRAY);
 
     EndDrawing();
+
+    // Optional frame dump (headless frame capture for stitching GIFs)
+    if (dumpFrames) {
+        if (dumpFramesDir[0] == '\0') {
+            strncpy(dumpFramesDir, "tools/frame_dumps", sizeof(dumpFramesDir) - 1);
+            dumpFramesDir[sizeof(dumpFramesDir) - 1] = '\0';
+        }
+        if (!DirectoryExists(dumpFramesDir)) MakeDirectory(dumpFramesDir);
+        char buf[512];
+        std::snprintf(buf, sizeof(buf), "%s/frame_%05d.png", dumpFramesDir, dumpFrameCounter++);
+        Image img = GetScreenData();
+        ExportImage(img, buf);
+        UnloadImage(img);
+    }
 }
 
 void LevelEditor::Run() {

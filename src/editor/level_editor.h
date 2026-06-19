@@ -12,7 +12,7 @@
 
 class LevelEditor {
 public:
-    LevelEditor();
+    LevelEditor(bool dumpFrames = false, const char* dumpDir = nullptr);
     ~LevelEditor();
 
     void Run();
@@ -49,6 +49,10 @@ private:
     PowerUpManager powerManager;
     LevelEditorMenu menu;
     LevelEditorScene scene;
+    // frame dump support
+    bool dumpFrames{false};
+    char dumpFramesDir[260]{0};
+    int dumpFrameCounter{0};
 };
 
 #endif
