@@ -34,10 +34,16 @@ g++ %SOURCES% -o %BUILD_DIR%\SuperScratchKartR.exe -O2 -Wall ^
     -lraylib -lopengl32 -lgdi32 -lwinmm
 
 if %ERRORLEVEL% EQU 0 (
-    echo Build Successful! Running game...
-    pushd %BUILD_DIR%
-    SuperScratchKartR.exe
-    popd
+    echo Build Successful!
+    REM Skip running the GUI in CI environments (GitHub Actions sets GITHUB_ACTIONS)
+    if defined GITHUB_ACTIONS (
+        echo Skipping run because running in CI/headless environment.
+    ) else (
+        echo Running game...
+        pushd %BUILD_DIR%
+        SuperScratchKartR.exe
+        popd
+    )
 ) else (
     echo Build Failed.
     pause

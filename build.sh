@@ -27,8 +27,14 @@ else
 fi
 
 if [ $? -eq 0 ]; then
-    echo "Build Successful! Running game..."
-    cd "$BUILD_DIR" && ./SuperScratchKartR
+    echo "Build Successful!"
+    # Avoid running the GUI application in CI/headless environments
+    if [ -z "$GITHUB_ACTIONS" ] && [ -z "$CI" ]; then
+        echo "Running game..."
+        cd "$BUILD_DIR" && ./SuperScratchKartR
+    else
+        echo "Skipping run because running in CI/headless environment."
+    fi
 else
     echo "Build Failed."
 fi
