@@ -16,10 +16,10 @@ I made this roadmap, just for development of things that are crucial for this ga
 * [x] Add logo and put it into the game.
 * [x] Implement a suspension system for better terrain handling.
 * [x] Implement power-up system (boosts, projectiles, obstacles) by item capsules.
+* [x] Make a level editor for creating and modifying .sskrt files, and putting power-ups too.
 
 ### In Progress & Upcoming
 
-* [ ] Remodel the entire track, now with using .sskrt files.
 * [ ] Redesing the UI HUD, now with redesigned speedometer, a lap counter, some changes, etc.
 * [ ] Redesign the pause screen, now with moving stripes for the bg, and with some shadows.
 * [ ] Add windowed and fullscreen mode.

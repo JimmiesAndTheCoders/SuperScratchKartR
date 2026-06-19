@@ -4,6 +4,10 @@
 
 A free, open-source fan-made 3D kart racing game inspired by SuperTuxKart and the SSK/SSKDX series by [Lucasliu9595](https://scratch.mit.edu/users/Lucasliu9595/), built from the ground up in C++ using the [raylib](https://www.raylib.com) library!
 
+## Level Editor (Alpha)
+
+The in-editor level editing tools are currently in alpha on the `feature/level-editor` branch. Expect incomplete features and rough UI — please file issues for bugs or missing functionality.
+
 > :warning: Fan Project Disclaimer: This is a non-commercial, fan-made project. All original concepts and characters are inspired by the "Super Scratch Kart" series and the Scratch Team. This project is not affiliated with or endorsed by the original creators.
 >
 > Note: This project is currently a work in progress (WIP). As it is in active development, you may encounter bugs, performance issues, or incomplete features. We appreciate your patience and feedback!

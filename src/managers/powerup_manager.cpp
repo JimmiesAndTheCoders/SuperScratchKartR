@@ -73,6 +73,22 @@ void PowerUpManager::GenerateCapsules(const Track* track, int count, float areaS
     std::cout << "PowerUpManager: placed " << placed << " capsules\n";
 }
 
+void PowerUpManager::ClearCapsules() {
+    capsules.clear();
+}
+
+int PowerUpManager::GetCapsuleCount() const {
+    return (int)capsules.size();
+}
+
+const std::vector<CapsuleInstance>& PowerUpManager::GetCapsules() const {
+    return capsules;
+}
+
+void PowerUpManager::SetCapsules(const std::vector<CapsuleInstance>& instances) {
+    capsules = instances;
+}
+
 void PowerUpManager::Update(Kart* player) {
     if (!player) return;
     Vector3 kartPos = player->GetPosition();

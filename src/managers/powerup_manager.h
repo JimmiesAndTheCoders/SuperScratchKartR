@@ -27,6 +27,11 @@ public:
     // randomly scatter capsules on the road surface of a track
     void GenerateCapsules(const Track* track, int count, float areaSize);
 
+    void ClearCapsules();
+    int GetCapsuleCount() const;
+    const std::vector<CapsuleInstance>& GetCapsules() const;
+    void SetCapsules(const std::vector<CapsuleInstance>& instances);
+
     // update logic (pickup detection)
     void Update(Kart* player);
     void Draw() const;
