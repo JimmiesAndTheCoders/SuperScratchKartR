@@ -2,6 +2,7 @@
 #include "track.h"
 #include "physics_controller.h"
 #include <math.h>
+#include <iostream>
 
 struct KartInputState {
     float turn;
@@ -9,6 +10,7 @@ struct KartInputState {
     bool braking;
     bool driftHolding;
     bool hopPressed;
+    bool usePower;
 };
 
 static KartInputState GetKartInput() {
@@ -18,7 +20,8 @@ static KartInputState GetKartInput() {
     input.accelerating = IsKeyDown(KEY_UP) || IsKeyDown(KEY_W);
     input.braking = IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S);
     input.driftHolding = IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT);
-    input.hopPressed = IsKeyPressed(KEY_Z); 
+    input.hopPressed = IsKeyPressed(KEY_Z);
+    input.usePower = IsKeyPressed(KEY_SPACE);
     return input;
 }
 
@@ -56,6 +59,25 @@ float Kart::GetSpeed() const {
     return Vector3DotProduct(velocity, forward);
 }
 
+void Kart::UsePowerUp() {
+    if (currentPower == PowerUpSlot::NONE) return;
+    switch (currentPower) {
+        case PowerUpSlot::BOOST:
+            powerTimer = 2.0f; // seconds of boost force
+            break;
+        case PowerUpSlot::PROJECTILE:
+            // placeholder action
+            std::cout << "[Kart] fired projectile!" << std::endl;
+            break;
+        case PowerUpSlot::OBSTACLE:
+            std::cout << "[Kart] dropped obstacle!" << std::endl;
+            break;
+        default:
+            break;
+    }
+    currentPower = PowerUpSlot::NONE;
+}
+
 void Kart::Update(const Track* currentTrack) {
     float dt = GetFrameTime();
     if (dt > 0.05f) dt = 0.0166f; 
@@ -71,6 +93,9 @@ void Kart::Update(const Track* currentTrack) {
     }
 
     KartInputState input = GetKartInput();
+    if (input.usePower) {
+        UsePowerUp();
+    }
     float grassFactor = (surface == SurfaceType::GRASS) ? 0.4f : 1.0f;
     
     Quaternion qRot = QuaternionFromEuler(0, rotation * DEG2RAD, 0);
@@ -98,8 +123,8 @@ void Kart::Update(const Track* currentTrack) {
     velocity.z = cosf(rotation * DEG2RAD) * newSpeed;
     position.x += velocity.x * dt;
     position.z += velocity.z * dt;
+    
     if (isGrounded) {
-        float targetY = currentGroundHeight + 0.05f;
         float netVerticalForce = suspForce.y - 15.0f; 
         velocityY += netVerticalForce * dt;
         velocityY *= 0.9f; 
@@ -121,6 +146,13 @@ void Kart::Update(const Track* currentTrack) {
             position.y = currentGroundHeight;
             velocityY = 0;
         }
+    }
+
+    if (powerTimer > 0.0f) {
+        Vector3 forward = { sinf(rotation * DEG2RAD), 0.0f, cosf(rotation * DEG2RAD) };
+        velocity = Vector3Add(velocity, Vector3Scale(forward, 20.0f * dt));
+        powerTimer -= dt;
+        if (powerTimer <= 0.0f) powerTimer = 0.0f;
     }
 
     wheelSpin += newSpeed * 5.0f * dt;

@@ -5,7 +5,7 @@
 Renderer::Renderer() {}
 Renderer::~Renderer() {}
 
-void Renderer::RenderFrame(const CameraManager& cameraSystem, const Kart* player, const Track* track, const DecorationManager* deco, bool isPaused) {
+void Renderer::RenderFrame(const CameraManager& cameraSystem, const Kart* player, const Track* track, const DecorationManager* deco, const PowerUpManager* powerups, bool isPaused) {
     BeginDrawing();
         ClearBackground(SKYBLUE);
         
@@ -15,6 +15,7 @@ void Renderer::RenderFrame(const CameraManager& cameraSystem, const Kart* player
             
             if (track) track->Draw();
             if (deco) deco->Draw();
+            if (powerups) powerups->Draw();
             if (player) player->Draw();
             
         EndMode3D();

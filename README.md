@@ -4,6 +4,10 @@
 
 A free, open-source fan-made 3D kart racing game inspired by SuperTuxKart and the SSK/SSKDX series by [Lucasliu9595](https://scratch.mit.edu/users/Lucasliu9595/), built from the ground up in C++ using the [raylib](https://www.raylib.com) library!
 
+## Level Editor (Alpha)
+
+The in-editor level editing tools are currently in alpha on the `feature/level-editor` branch. Expect incomplete features and rough UI — please file issues for bugs or missing functionality.
+
 > :warning: Fan Project Disclaimer: This is a non-commercial, fan-made project. All original concepts and characters are inspired by the "Super Scratch Kart" series and the Scratch Team. This project is not affiliated with or endorsed by the original creators.
 >
 > Note: This project is currently a work in progress (WIP). As it is in active development, you may encounter bugs, performance issues, or incomplete features. We appreciate your patience and feedback!
@@ -29,6 +33,7 @@ A free, open-source fan-made 3D kart racing game inspired by SuperTuxKart and th
 | Drift          | L Shift / R Shift |
 | Hop            | Z                 |
 | Pause          | Esc               |
+| Item Use       | Space             |
 
 ## :hammer_and_wrench: Build Instructions
 
@@ -76,52 +81,7 @@ Ensure you have `brew install raylib` or the raylib framework installed.
 
 ## :world_map: Roadmap
 
-I made this roadmap, just for development of things that are crucial for this game. When I complete all of these, I will add more features and content, but for now, this is the bare minimum for a playable game.
-
-### Development
-
-#### Completed Tasks
-
-* [x] Implement basic kart physics and controls.
-* [x] Add sound effects and music.
-* [x] Add .glb files for track (formerly .obj).
-* [x] Add drifting, and a more robust physics system.
-* [x] Add character models and animations.
-* [x] Add tree models scattered around without lagging.
-* [x] Add .ttf font and replace current font assets.
-* [x] Add logo and put it into the game.
-* [x] Implement a suspension system for better terrain handling.
-
-#### In Progress & Upcoming
-
-* [ ] Implement power-up system (boosts, projectiles, obstacles) by question lootboxes.
-* [ ] Create UI HUD (Speedometer, Lap counter, Position).
-* [ ] Remodel the entire track, now with grass.
-* [ ] Redesign the pause screen, now with moving stripes, and with some shadows.
-* [ ] Design a "Mini-map" system to track player.
-* [ ] Design and implement multiple race tracks.
-* [ ] Add more characters and karts with unique stats.
-* [ ] Add local split-screen or online multiplayer support.
-* [ ] Add debug system by Konami Code.
-* [ ] Implement AI opponents with waypoint pathfinding.
-* [ ] Implement AI defensive/offensive logic (using power-ups strategically).
-* [ ] Add environmental hazards (oil spills, falling rocks).
-* [ ] Add dynamic lighting and custom shaders (smoke, sparks).
-* [ ] Create a particle system for mud, grass, and drift marks.
-* [ ] Remaster the physics for the kart's suspension, and add a more robust collision system.
-* [ ] Add a screen capture tool.
-* [ ] Implement a camera shake system for high speeds and collisions.
-* [ ] Optimize performance and fix physics engine bugs.
-* [ ] Add crash handler and error logging system.
-* [ ] Integrate a save system for high scores and unlocks.
-* [ ] Add settings menu (audio, graphics) and credits.
-* [ ] Add a screen recorder with using ffmpeg.
-* [ ] Implement a "Replay System" to watch previous races.
-* [ ] Add a main menu screen, game/player/map select.
-* [ ] Implement a localization system for multi-language support.
-* [ ] Add an achievement and trophy system.
-* [ ] Add a mods and addons system.
-* [ ] Final touches, and end roadmap.
+Go to [ROADMAP.md](ROADMAP.md) for the full roadmap and development plans.
 
 ## :star2: Credits
 

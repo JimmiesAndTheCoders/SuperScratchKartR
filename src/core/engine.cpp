@@ -16,6 +16,10 @@ Engine::Engine() : isPaused(false), shouldClose(false) {
 
     decoManager.LoadTreeModels();
     decoManager.GenerateScatteredTrees(currentTrack, 1000, 1500.0f);
+
+    // setup power-up capsules
+    powerManager.LoadModel();
+    powerManager.GenerateCapsules(currentTrack, 50, 1500.0f);
     
     FontManager::LoadFonts();
     LogoManager::LoadLogo(50);
@@ -41,6 +45,7 @@ void Engine::Update() {
 
     if (!isPaused) {
         player->Update(currentTrack);
+        powerManager.Update(player);
         cameraSystem.Update(player->GetPosition(), player->GetRotation());
         
         audioSystem.Update(player->GetSpeed(), 45.0f);
@@ -49,7 +54,7 @@ void Engine::Update() {
 }
 
 void Engine::Draw() {
-    renderer.RenderFrame(cameraSystem, player, currentTrack, &decoManager, isPaused);
+    renderer.RenderFrame(cameraSystem, player, currentTrack, &decoManager, &powerManager, isPaused);
 }
 
 void Engine::Run() {

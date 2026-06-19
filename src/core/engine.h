@@ -10,6 +10,7 @@
 #include "kart.h"
 #include "track.h"
 #include "decoration_manager.h"
+#include "powerup_manager.h"
 
 class Engine {
 public:
@@ -26,6 +27,7 @@ private:
     AudioManager audioSystem;
     Renderer renderer;
     DecorationManager decoManager;
+    PowerUpManager powerManager;
     Kart* player;
     Track* currentTrack;
 

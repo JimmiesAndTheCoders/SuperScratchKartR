@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, feature/level-editor ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+      - name: Install dependencies
+        run: |
+          pacman -S --noconfirm mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-raylib
+      - name: Build
+        run: .\build.bat
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake libgl1-mesa-dev libraylib-dev ffmpeg
+      - name: Build
+        run: ./build.sh
